@@ -2,7 +2,7 @@
 
 Datasets:
 
-* (2023-07-17) https://data.nola.gov/Housing-Land-Use-and-Blight/Map-of-Short-Term-Rental-Licenses/j5u3-2ueh
+* [Map of Short-Term Rental Licenses (data.nola.gov)](https://data.nola.gov/Housing-Land-Use-and-Blight/Map-of-Short-Term-Rental-Licenses/j5u3-2ueh)
 
 [Open Map](https://s3.amazonaws.com/filestogeaux.garyscorner.net/pub/STRMap.html)  ( > 140mb long load times )
 
