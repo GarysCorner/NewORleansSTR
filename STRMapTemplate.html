@@ -66,9 +66,7 @@
 </body>
 <script>
     
-        var data = {
-                'All':DATA_ALL
-        };
+        var data = DATA_ALL;
     
     
             var map = L.map(
@@ -91,31 +89,39 @@
                 {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
             ).addTo(map);
         
-            var overlays = {}
-    
-            for (var dataSet of Object.keys(data)) { 
-
-                var marker_cluster = L.markerClusterGroup(
+            var overlayNames = ['Pending', 'Revoked', 'Denied', 'Expired', 'Issued'];
+            var overlays = {};
+            for (var name of overlayNames) { 
+                overlays[name] = L.markerClusterGroup(
                     {"chunkedLoading": true}
                 );
-                map.addLayer(marker_cluster);
+                map.addLayer(overlays[name]);
+            }
+    
+            for (let idx=0; idx < data['Location'].length; idx++) { 
 
-                for (var key of Object.keys(data[dataSet]['Location'])) {
-
+                
 
                     var marker_obj = L.marker(
-                        data[dataSet]['Location'][key],
+                        data['Location'][idx],
                         {}
-                    ).addTo(marker_cluster);
+                    );
+                //marker_obj.addTo(overlays['All'])    
+                marker_obj.addTo(overlays[data['Current Status'][idx]])
 
 
                 var popup_obj = L.popup({"maxWidth": "100%"});
                 
                 tblRows = '<div id="html_popup" style="width: 100.0%; height: 100.0%;"><table>'
-                for (var dataCol of Object.keys(data[dataSet])) {
-                    var colVal = data[dataSet][dataCol][key]
+                tblRows += '<tr><th>Link</th><td><a target="_blank" href="https://onestopapp.nola.gov/Redirect.aspx?SearchString=' + data['Reference Code'][idx] + '">One Stop App</td></tr>'
+                for (var dataCol of Object.keys(data)) {
+                    var colVal = data[dataCol][idx]
                     if (colVal) {
-                        tblRows += "<tr><th>" + dataCol + "</th><td>" + data[dataSet][dataCol][key] + "</td></tr>" 
+                        if (['Location','Address'].includes(dataCol) ) {
+                               colVal = "<a target='_blank' href='http://maps.google.com/maps?q=&layer=c&cbll=" + data['Location'][idx][0] + "," + data['Location'][idx][1] + "'>" + colVal + "</a>"
+                        }
+                        
+                        tblRows += "<tr><th>" + dataCol + "</th><td>" + colVal + "</td></tr>" 
                     }
                 }
                 tblRows += "</table></div>"
@@ -129,12 +135,9 @@
             ;
 
 
-            overlays[dataSet] = marker_cluster
-
-
+            
 
         
-                };
             };
 
     
