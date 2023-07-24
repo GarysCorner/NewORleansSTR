@@ -89,7 +89,7 @@
                 {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
             ).addTo(map);
         
-            var overlayNames = ['Pending', 'Revoked', 'Denied', 'Expired', 'Issued'];
+            var overlayNames = ['All','Pending', 'Revoked', 'Denied', 'Expired', 'Issued'];
             var overlays = {};
             for (var name of overlayNames) { 
                 overlays[name] = L.markerClusterGroup(
@@ -100,14 +100,15 @@
     
             for (let idx=0; idx < data['Location'].length; idx++) { 
 
-                
+                for (var overlayName of ['All', data['Current Status'][idx]]) {
 
                     var marker_obj = L.marker(
                         data['Location'][idx],
                         {}
                     );
                 //marker_obj.addTo(overlays['All'])    
-                marker_obj.addTo(overlays[data['Current Status'][idx]])
+                //marker_obj.addTo(overlays[data['Current Status'][idx]])
+                marker_obj.addTo(overlays[overlayName])
 
 
                 var popup_obj = L.popup({"maxWidth": "100%"});
@@ -137,7 +138,7 @@
 
             
 
-        
+                }  //end for overlayName
             };
 
     
@@ -152,11 +153,10 @@
                 layer_control.overlays,
                 {"autoZIndex": true, "collapsed": true, "position": "topright"}
             ).addTo(map);
-            //marker_cluster.remove();
-            //marker_cluster_c4bd931a814e456931e3ab4485233dd8.remove();
-            //marker_cluster_eeb1519686398fdb78a79ebba255e079.remove();
-            //marker_cluster_4e062069bf9642a63eb607908e628c50.remove();
-            //marker_cluster_089f423ad99710303026870de421b4cb.remove();
+            
+            for (var overlayName of overlayNames.slice(1)) { overlays[overlayName].remove(); }
+    
+            
         
 </script>
 </html>
