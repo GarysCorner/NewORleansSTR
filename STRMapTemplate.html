@@ -55,7 +55,7 @@
             This is map is for contact info only, this is not an analysis!<br />
             <a href="https://github.com/GarysCorner/NewORleansSTR" target="_blank">GitHub Project and More Info</a><br />
              Dataset:  <a target="_blank" href="https://data.nola.gov/Housing-Land-Use-and-Blight/Map-of-Short-Term-Rental-Licenses/j5u3-2ueh">https://data.nola.gov/Housing-Land-Use-and-Blight/Map-of-Short-Term-Rental-Licenses/j5u3-2ueh</a><br />
-             Last Update:  2023-08-18
+            Last Update:  <b><span id='lastUpdated'></span></b>
         </p>
 </div>
 <div style="clear:both"></div>
@@ -66,8 +66,13 @@
 </body>
 <script>
     
-        var data = DATA_ALL;
+        var inputObject = DATA_ALL;
     
+        var config = inputObject['config'];
+        var data = inputObject['data'];
+    
+        var lastUpdatedSpan = document.getElementById("lastUpdated");
+        lastUpdatedSpan.textContent = inputObject['config']['lastUpdated'];
     
             var map = L.map(
                 "map",
